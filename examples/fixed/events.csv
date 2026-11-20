@@ -1,0 +1,17 @@
+case_id,id,sequence,delivery_key,intent,occurred_at,stream_key,account_id,account_domain,contact_id,task_key,to_stage,enriched_at,research_url,research_checked
+webhook-replay,webhook-replay-1,1,source-773,route,,,harbor,,,,,,,
+webhook-replay,webhook-replay-2,2,source-773,route,,,harbor,,,,,,,
+duplicate-contacts,duplicate-contacts-1,1,duplicate-contacts-1-delivery,outreach,,,harbor,,contact-a,,,2026-11-10T12:00:00Z,https://harbor.example/news,
+similar-names,similar-names-1,1,similar-names-1-delivery,route,,,,Harbor.EXAMPLE,,,,,,
+account-hierarchy,account-hierarchy-1,1,account-hierarchy-1-delivery,route,,,,harbor.example,,,,,,
+account-ownership,account-ownership-1,1,account-ownership-1-delivery,route,,,harbor,,,,,,,
+account-ownership,account-ownership-2,2,account-ownership-2-delivery,route,,,harbor-labs,,,,,,,
+existing-customer,existing-customer-1,1,existing-customer-1-delivery,outreach,,,harbor,,contact-a,,,2026-11-10T12:00:00Z,https://harbor.example/news,
+unsubscribed,unsubscribed-1,1,unsubscribed-1-delivery,outreach,,,harbor,,contact-a,,,2026-11-10T12:00:00Z,https://harbor.example/news,
+stale-enrichment,stale-enrichment-1,1,stale-enrichment-1-delivery,outreach,,,harbor,,contact-a,,,2026-09-01T12:00:00Z,https://harbor.example/news,
+missing-research,missing-research-1,1,missing-research-1-delivery,outreach,,,harbor,,contact-a,,,2026-11-10T12:00:00Z,,true
+event-order,event-order-1,1,event-order-1-delivery,route,2026-11-19T08:00:00-05:00,harbor-routing,harbor,,,,,,,
+event-order,event-order-2,2,event-order-2-delivery,route,2026-11-18T12:00:00Z,harbor-routing,harbor,,,,,,,
+lifecycle,lifecycle-1,1,lifecycle-1-delivery,transition,,,harbor,,,,customer,,,
+repeated-task,repeated-task-1,1,repeated-task-1-delivery,task,,,harbor,,,review-signal,,,,
+repeated-task,repeated-task-2,2,repeated-task-2-delivery,task,,,harbor,,,review-signal,,,,

@@ -1,0 +1,24 @@
+[build-system]
+requires = ["setuptools>=77"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "gtm-workflow-preflight"
+version = "0.1.0"
+description = "Offline regression tests for proposed GTM workflow decisions"
+readme = "README.md"
+requires-python = ">=3.11"
+license = "MIT"
+license-files = ["LICENSE"]
+authors = [{name = "Stephen Stilwell"}]
+dependencies = []
+
+[project.urls]
+Repository = "https://github.com/stephenstilwell/gtm-workflow-preflight"
+Publication = "https://stephenstilwell.com"
+
+[project.scripts]
+gtm-preflight = "gtm_preflight.cli:main"
+
+[tool.setuptools]
+packages = ["gtm_preflight"]

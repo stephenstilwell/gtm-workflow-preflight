@@ -1,0 +1,7 @@
+case_id,id,account_id,email,unsubscribed
+duplicate-contacts,contact-a,harbor,ren@harbor.example,false
+duplicate-contacts,contact-copy,harbor,Ren@Harbor.EXAMPLE,false
+existing-customer,contact-a,harbor,ren@harbor.example,false
+unsubscribed,contact-a,harbor,ren@harbor.example,true
+stale-enrichment,contact-a,harbor,ren@harbor.example,false
+missing-research,contact-a,harbor,ren@harbor.example,false

@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "name": "Corrected synthetic workflow",
+  "as_of": "2026-11-20T12:00:00Z",
+  "cases": {
+    "webhook-replay": "Duplicate webhook deliveries",
+    "duplicate-contacts": "Duplicate CRM contacts",
+    "similar-names": "Similar company names with different identities",
+    "account-hierarchy": "Parent and subsidiary account ambiguity",
+    "account-ownership": "Missing or conflicting account ownership",
+    "existing-customer": "Existing customer suppression",
+    "unsubscribed": "Unsubscribed contacts",
+    "stale-enrichment": "Stale enrichment fields",
+    "missing-research": "Missing research evidence",
+    "event-order": "Out-of-order events",
+    "lifecycle": "Invalid lifecycle transitions",
+    "repeated-task": "Repeated task creation"
+  }
+}

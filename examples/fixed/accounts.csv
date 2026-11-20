@@ -1,0 +1,16 @@
+case_id,id,name,domain,parent_id,customer,crm_owner_id,territory_owner_id,lifecycle
+webhook-replay,harbor,Harbor Metrics,harbor.example,,,owner-east,,
+duplicate-contacts,harbor,Harbor Metrics,harbor.example,,false,owner-east,,
+similar-names,harbor,Harbor Metrics,harbor.example,,,owner-east,,
+similar-names,harbor-labs,Harbor Metric,harbor-labs.example,,,owner-west,,
+account-hierarchy,harbor,Harbor Metrics,harbor.example,,,owner-east,,
+account-hierarchy,harbor-services,Harbor Services,harbor.example,harbor,,owner-west,,
+account-ownership,harbor,Harbor Metrics,harbor.example,,,,,
+account-ownership,harbor-labs,Harbor Labs,harbor-labs.example,,,owner-east,owner-west,
+existing-customer,harbor,Harbor Metrics,harbor.example,,true,owner-east,,
+unsubscribed,harbor,Harbor Metrics,harbor.example,,false,owner-east,,
+stale-enrichment,harbor,Harbor Metrics,harbor.example,,false,owner-east,,
+missing-research,harbor,Harbor Metrics,harbor.example,,false,owner-east,,
+event-order,harbor,Harbor Metrics,harbor.example,,,owner-east,,
+lifecycle,harbor,Harbor Metrics,harbor.example,,,owner-east,,lead
+repeated-task,harbor,Harbor Metrics,harbor.example,,,owner-east,,
