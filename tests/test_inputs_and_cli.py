@@ -6,6 +6,7 @@ import tempfile
 import unittest
 from html.parser import HTMLParser
 from pathlib import Path
+from xml.etree import ElementTree
 
 from gtm_preflight.config import load_policy
 from gtm_preflight.inputs import InputError, load_suite
@@ -186,16 +187,41 @@ class CliTests(FixtureMixin, unittest.TestCase):
         for label, code in (("broken", 1), ("fixed", 0)):
             with self.subTest(suite=label):
                 example = ROOT / "examples" / label
-                first = self.invoke(example, output="first")
-                second = self.invoke(example, output="second")
+                first = self.invoke(example, "--junit", output="first")
+                second = self.invoke(example, "--junit", output="second")
                 self.assertEqual(first.returncode, code, first.stderr)
                 self.assertEqual(second.returncode, code, second.stderr)
-                for name in ("report.json", "report.html"):
+                for name in ("report.json", "report.html", "report.junit.xml"):
                     self.assertEqual((self.suite_dir / "first" / name).read_bytes(),
                                      (self.suite_dir / "second" / name).read_bytes())
                 report = json.loads((self.suite_dir / "first" / "report.json").read_text(encoding="utf-8"))
                 self.assertEqual(report["schema_version"], 1)
                 self.assertEqual(report["coverage"]["events"], 16)
+                junit = ElementTree.parse(self.suite_dir / "first" / "report.junit.xml").getroot()
+                self.assertEqual(junit.tag, "testsuite")
+                self.assertEqual(int(junit.get("tests")), 16)
+                self.assertEqual(int(junit.get("failures")), report["summary"]["fail"])
+                self.assertEqual(len(junit.findall("./testcase/failure")), report["summary"]["fail"])
+                for failure in junit.findall("./testcase/failure"):
+                    self.assertTrue(failure.get("type"))
+                    self.assertTrue(failure.text)
+
+    def test_junit_marks_inconclusive_checks_skipped_and_escapes_suite_name(self):
+        self.manifest["name"] = 'Routing <review> & "verification"'
+        self.tables["actions"].clear()
+        self.write_suite()
+        report_path = self.suite_dir / "reports" / "report.junit.xml"
+        result = self.invoke(self.suite_dir)
+        self.assertEqual(result.returncode, 3, result.stderr)
+        self.assertFalse(report_path.exists())
+        result = self.invoke(self.suite_dir, "--junit", "--allow-inconclusive")
+        self.assertEqual(result.returncode, 0, result.stderr)
+        root = ElementTree.parse(report_path).getroot()
+        self.assertEqual(root.get("name"), self.manifest["name"])
+        self.assertEqual(root.get("skipped"), "1")
+        case = root.find("testcase")
+        self.assertEqual((case.get("classname"), case.get("name")), ("routing", "event-a"))
+        self.assertIn("No observed decision", case.find("skipped").get("message"))
 
     def test_cli_exit_codes_for_invalid_inconclusive_and_material_failures(self):
         self.tables["actions"].clear()

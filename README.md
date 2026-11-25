@@ -47,6 +47,14 @@ gtm-preflight run fixtures/lead-routing --policy policies/lead-routing.json --ou
 
 Keep the default exit handling for a CI gate that requires complete evidence. The included workflow runs the unit tests, checks both example exit codes, and uploads their reports.
 
+### Publish results to a CI test viewer
+
+```sh
+gtm-preflight run fixtures/lead-routing --output reports/lead-routing --junit
+```
+
+Configure your CI test viewer to read `reports/lead-routing/report.junit.xml`, including on failed runs. Each policy finding becomes a test case identified by its fixture case and event. Failed checks include the rule identifier and suggested correction. Inconclusive checks appear as skipped in the XML. Use the CLI exit code to enforce the gate.
+
 ## Learn and extend
 
 - Follow the [ten-minute tutorial](docs/tutorial.md) to diagnose an incident and turn a known failure into an explicit inconclusive check.

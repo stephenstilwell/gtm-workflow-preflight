@@ -3,6 +3,7 @@ import os
 from html import escape
 from pathlib import Path
 from tempfile import NamedTemporaryFile
+from xml.etree.ElementTree import Element, SubElement, indent, tostring
 
 from .policy import RULES
 from .runner import STATUSES
@@ -149,12 +150,34 @@ def write_atomic(path, content):
             temporary.unlink(missing_ok=True)
 
 
-def write_reports(directory, report):
+def write_reports(directory, report, *, junit=False):
     html = render_html(report)
     payload = json.dumps(report, ensure_ascii=False, indent=2) + "\n"
     directory.mkdir(parents=True, exist_ok=True)
     write_atomic(directory / "report.json", payload)
     write_atomic(directory / "report.html", html)
+    if junit:
+        write_atomic(directory / "report.junit.xml", render_junit(report))
+
+
+def render_junit(report):
+    counts = report["summary"]
+    suite = Element("testsuite", {
+        "name": report["suite"], "tests": str(sum(counts.values())), "failures": str(counts["fail"]),
+        "errors": "0", "skipped": str(counts["inconclusive"]),
+    })
+    for case in report["cases"]:
+        for finding in case["findings"]:
+            test = SubElement(suite, "testcase", {
+                "classname": case["id"], "name": finding["event_id"] or "Case coverage",
+            })
+            if finding["status"] == "fail":
+                failure = SubElement(test, "failure", {"type": finding["rule_id"], "message": finding["detail"]})
+                failure.text = finding["correction"]
+            elif finding["status"] == "inconclusive":
+                SubElement(test, "skipped", {"message": finding["detail"]})
+    indent(suite)
+    return tostring(suite, encoding="unicode", xml_declaration=True) + "\n"
 
 
 def badge(status):
